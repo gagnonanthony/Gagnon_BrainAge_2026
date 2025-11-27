@@ -24,7 +24,7 @@ AddNodesAttributes -h
 
 `combat`: Official instructions can be seen [here](https://github.com/scil-vital/clinical-ComBAT)
 
-Some additional R dependencies are required to use the [lcmm](https://cecileproust-lima.github.io/lcmm/index.html) and [forestploter](https://github.com/adayim/forestploter).
+Some additional R dependencies are required to use the [lcmm](https://cecileproust-lima.github.io/lcmm/index.html) and [forestploter](https://github.com/adayim/forestploter) packages.
 
 ## Structure
 
