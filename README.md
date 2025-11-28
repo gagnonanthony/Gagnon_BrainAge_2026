@@ -1,6 +1,6 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
-![Static Badge](https://img.shields.io/badge/bioarXiv-10?style=for-the-badge&logo=arxiv&logoColor=%23B31B1B&label=10.1101%2F2025.11.27.690886&color=%23B31B1B&link=https%3A%2F%2Fdoi.org%2F10.1101%2F2025.11.27.690886)
+[![Static Badge](https://img.shields.io/badge/bioarXiv-10?style=for-the-badge&logo=arxiv&logoColor=%23B31B1B&label=10.1101%2F2025.11.27.690886&color=%23B31B1B&link=https%3A%2F%2Fdoi.org%2F10.1101%2F2025.11.27.690886)](https://doi.org/10.1101/2025.11.27.690886)
 
 
 
