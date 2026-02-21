@@ -12,7 +12,7 @@ Affiliations:\
 <sup>1</sup> Department of Pediatrics, University of Sherbrooke, Québec, Canada\
 <sup>2</sup> Sherbrooke Connectivity Imaging Lab (SCIL), University of Sherbrooke, Quebec, Canada
 
-This repository contains all relevant code and scripts to reproduce the results found in Gagnon et al. 2025
+This repository contains all relevant code and scripts to reproduce the results found in Gagnon et al. 2026
 
 ## Setting up
 
