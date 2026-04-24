@@ -9,6 +9,7 @@ OUTPUT_DIR=$3
 LEFT_ATLAS=$4
 RIGHT_ATLAS=$5
 SUBCORTICAL_ATLAS=$6
+MNI152_FS=$7
 
 # Fetch path of the current script.
 WDIR=$(dirname $(realpath $0))
@@ -25,15 +26,17 @@ mkdir temp/
 # Set freesurfer subjects path.
 export FSAVERAGE=${FREESURFER_HOME}/subjects/fsaverage
 
+# Use mri_ca_label and MNI152_FS to create a subcortical segmentation containing the Brainnetome subcortical in MNI152 space.
+mri_ca_label ${MNI152_FS}/mri/norm.mgz ${MNI152_FS}/mri/transforms/talairach.m3z ${SUBCORTICAL_ATLAS} ${WDIR}/temp/subcortical.nii.gz
+
 # Create a subcortical segmentation containing the Brainnetome subcortical
 # and cerbellum/brainstem regions from freesurfer's aseg.mgz.
-mri_convert ${SUBCORTICAL_ATLAS} -nth 1 -voxsize 1 1 1 --resample_type nearest ${WDIR}/temp/subcortical.nii.gz 
-mri_convert ${FSAVERAGE}/mri/aseg.mgz ${WDIR}/temp/aseg.nii.gz
-scil_volume_math.py convert ${WDIR}/temp/aseg.nii.gz ${WDIR}/temp/aseg.nii.gz --data_type uint16 -f
+mri_convert ${MNI152_FS}/mri/aseg.mgz ${WDIR}/temp/aseg.nii.gz
+scil_volume_math convert ${WDIR}/temp/aseg.nii.gz ${WDIR}/temp/aseg.nii.gz --data_type uint16 -f
 
 # Fetching labels.
-scil_labels_combine.py ${WDIR}/temp/brainstem_cerebellum.nii.gz --volume_ids ${WDIR}/temp/aseg.nii.gz 16 8 47 --out_labels_ids 225 226 227
-scil_labels_combine.py ${WDIR}/temp/BN_child_subcortical.nii.gz --volume_ids ${WDIR}/temp/subcortical.nii.gz 211 212 213 214 215 216 217 \
+scil_labels_combine ${WDIR}/temp/brainstem_cerebellum.nii.gz --volume_ids ${WDIR}/temp/aseg.nii.gz 16 8 47 --out_labels_ids 225 226 227
+scil_labels_combine ${WDIR}/temp/BN_child_subcortical.nii.gz --volume_ids ${WDIR}/temp/subcortical.nii.gz 211 212 213 214 215 216 217 \
     218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 \
     --volume_ids ${WDIR}/temp/brainstem_cerebellum.nii.gz 225 226 227 \
     --out_labels_ids 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 \
@@ -52,7 +55,7 @@ wb_command -cifti-create-label ${WDIR}/temp/atlas-BrainnetomeChild_space-fsLR_de
 
 # Resample the 164k dense nifti files to 32k using fsaverage spheres.
 wb_command -cifti-resample ${WDIR}/temp/atlas-BrainnetomeChild_space-fsLR_den-164k_dseg.dlabel.nii COLUMN \
-    ${REFERENCE} COLUMN BARYCENTRIC ENCLOSING_VOXEL temp/atlas-BrainnetomeChild_space-fsLR_den-32k_dseg.dlabel.nii \
+    ${REFERENCE} COLUMN BARYCENTRIC ENCLOSING_VOXEL ${WDIR}/temp/atlas-BrainnetomeChild_space-fsLR_den-32k_dseg.dlabel.nii \
     -left-spheres ${TEMPLATEFLOW_HOME}/tpl-fsLR/tpl-fsLR_space-fsaverage_hemi-L_den-164k_sphere.surf.gii ${TEMPLATEFLOW_HOME}/tpl-fsLR/tpl-fsLR_space-fsaverage_hemi-L_den-32k_sphere.surf.gii \
     -right-spheres ${TEMPLATEFLOW_HOME}/tpl-fsLR/tpl-fsLR_space-fsaverage_hemi-R_den-164k_sphere.surf.gii ${TEMPLATEFLOW_HOME}/tpl-fsLR/tpl-fsLR_space-fsaverage_hemi-R_den-32k_sphere.surf.gii
 
